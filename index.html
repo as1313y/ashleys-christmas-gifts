@@ -105,6 +105,8 @@
   @keyframes nudge{50%{transform:translateX(8px)}}
   .contact{background:#fff7e3;border:2px solid var(--gold);color:var(--pine);border-radius:14px;padding:12px 16px;font-weight:700;margin:0 0 18px}
   .item .nm{padding-right:30px}
+  .stars{font-size:15px;margin-top:4px;letter-spacing:1px}
+  .star-key{background:#fff;border:2px dashed var(--gold);border-radius:14px;padding:10px 14px;margin:12px 0 0;font-weight:700;color:var(--pine)}
   footer{text-align:center;color:rgba(251,245,234,.6);font-size:13px;margin-top:20px}
 </style>
 </head>
@@ -152,6 +154,7 @@
       <h2>Pick what you'd like to give me</h2>
       <div class="contact" style="margin:0 0 14px">💬 Got any questions? Feel free to contact me (Ashley) anytime!</div>
       <p>Tap the items you want to give (pick as many as you like for your basket), then press <b>Confirm my gifts</b>. Once you confirm, those items are reserved for you and no one else can pick them, so nobody gives me the same thing twice. Changed your mind? You can cancel any of your items below.</p>
+      <div class="star-key">⭐ The stars show how important each gift is to me. The more stars, the more I'd love to get it! (Up to ⭐⭐⭐⭐⭐)</div>
       <div class="who">
         <input id="giverName" maxlength="40" placeholder="Your name (so Ashley knows who to thank!)">
       </div>
@@ -229,36 +232,36 @@ const OWNER_EMAIL = "ash13y.c4ndra@gmail.com";
 
 /* ===== EDIT THE WISHLIST HERE ===== */
 const ITEMS = [
-  {id:"octobuddy", name:"Octobuddy", note:"White"},
+  {id:"octobuddy", name:"Octobuddy", note:"White", stars:3},
   {id:"cottonon", name:"Cotton On gift card", note:""},
-  {id:"glue", name:"E6000 or B7000 glue", note:""},
+  {id:"glue", name:"E6000 or B7000 glue", note:"", stars:2},
   {id:"polaroid", name:"Decorative Polaroid film", note:"Candy Pop or Sprinkle design"},
   {id:"filmbook", name:"Polaroid film book", note:"Instax mini, white"},
   {id:"gobbles", name:"Crayola Globbles", note:""},
   {id:"owala", name:"Owala boot", note:"24oz, grey"},
-  {id:"squishies", name:"Squishies", note:"Slow-rising, from Bunnies Patisserie"},
+  {id:"squishies", name:"Squishies", note:"Slow-rising, from Bunnies Patisserie", stars:2},
   {id:"candle", name:"Vanilla candle", note:""},
-  {id:"headphones", name:"Wired headphones", note:"USB-C"},
+  {id:"headphones", name:"Wired headphones", note:"USB-C", stars:2},
   {id:"powerbank", name:"MagSafe power bank", note:"White or black"},
-  {id:"dog", name:"A living dog", note:""},
-  {id:"vinyl", name:"yspsfagsil vinyl album", note:"Regular colour"},
-  {id:"camera", name:"Digital camera", note:""},
-  {id:"crocs", name:"Crocs platform clogs", note:"Bring me personally"},
-  {id:"player", name:"2-in-1 vinyl and CD player", note:""},
+  {id:"dog", name:"A living dog", note:"", stars:5},
+  {id:"vinyl", name:"yspsfagsil vinyl album", note:"Regular colour", stars:4},
+  {id:"camera", name:"Digital camera", note:"", stars:3},
+  {id:"crocs", name:"Crocs platform clogs", note:"Bring me personally", stars:4},
+  {id:"player", name:"2-in-1 vinyl and CD player", note:"", stars:4},
   {id:"mixer", name:"Stand mixer", note:"Black"},
-  {id:"perfume", name:"Kayali Sweet Peach perfume", note:""},
+  {id:"perfume", name:"Kayali Sweet Peach perfume", note:"", stars:1},
   {id:"curler", name:"Hair curler", note:"White or black"},
   {id:"cakepops", name:"Cake pops", note:"Vanilla"},
   {id:"swedish", name:"Swedish candy", note:""},
-  {id:"redpacket", name:"Red packet", note:""},
-  {id:"hoops", name:"Gold hoop earrings", note:"Small, cheap"},
-  {id:"necklace", name:"Layered gold necklace", note:"Cheap is fine"},
-  {id:"hairnets", name:"Ballet hair nets", note:""},
+  {id:"redpacket", name:"Red packet", note:"", stars:2},
+  {id:"hoops", name:"Gold hoop earrings", note:"Small, cheap", stars:3},
+  {id:"necklace", name:"Layered gold necklace", note:"Cheap is fine", stars:3},
+  {id:"hairnets", name:"Ballet hair nets", note:"", stars:2},
   {id:"acai", name:"Açaí bowl experience", note:""},
   {id:"brush", name:"Boar bristle hair brush", note:""},
   {id:"magnum", name:"Magnum Bonbons", note:""},
   {id:"icetray", name:"Ice cream making tray", note:""},
-  {id:"bag", name:"Black shoulder bag purse", note:"Cheap is fine"}
+  {id:"bag", name:"Black shoulder bag purse", note:"Cheap is fine", stars:4}
 ];
 /* Selections close at the end of 10 December 2026 (Singapore time) */
 const DEADLINE = new Date("2026-12-10T23:59:59+08:00");
@@ -328,6 +331,7 @@ function render(){
     el.tabIndex = c || locked ? -1 : 0;
     el.innerHTML = '<div class="tick">'+(selected.has(it.id)?'✓':'')+'</div>' +
       '<div class="nm">'+esc(it.name)+'</div>' +
+      (it.stars?'<div class="stars" aria-label="'+it.stars+' out of 5 stars">'+'⭐'.repeat(it.stars)+'</div>':'') +
       (it.note?'<div class="nt">'+esc(it.note)+'</div>':'') +
       (mine?'<span class="tag m">You\'re giving this</span>':'') +
       (taken?'<span class="tag t">Already taken 🎀</span>':'') +
