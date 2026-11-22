@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ashley's Christmas Gifts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pine:#163d2e; --pine2:#1f5540; --berry:#b3263a; --berry2:#8e1b2c;
+    --cream:#fbf5ea; --gold:#d9a441; --ink:#2a2522; --muted:#6f655d; --line:#e7dccb;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:Nunito,system-ui,sans-serif;color:var(--ink);background:var(--pine);min-height:100vh;overflow-x:hidden}
+  /* snow */
+  .snow{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .flake{position:absolute;top:-10px;color:#fff;opacity:.8;animation:fall linear infinite}
+  @keyframes fall{to{transform:translateY(110vh) translateX(30px) rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.flake{display:none}}
+
+  .wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:18px 16px 60px}
+  header{text-align:center;color:var(--cream);padding:26px 0 10px}
+  h1{font-family:'Mountains of Christmas',cursive;font-size:clamp(42px,8vw,76px);margin:0;line-height:1;letter-spacing:1px;text-shadow:0 3px 0 var(--berry2)}
+  .sub{opacity:.85;margin-top:8px;font-size:17px}
+  .lights{display:flex;justify-content:center;gap:14px;margin:12px 0 0}
+  .lights span{width:12px;height:18px;border-radius:50% 50% 45% 45%;animation:twinkle 1.6s infinite alternate}
+  .lights span:nth-child(4n+1){background:#ff5a5a}.lights span:nth-child(4n+2){background:#ffd35a;animation-delay:.4s}
+  .lights span:nth-child(4n+3){background:#6fe08a;animation-delay:.8s}.lights span:nth-child(4n){background:#6ab8ff;animation-delay:1.2s}
+  @keyframes twinkle{from{opacity:.35}to{opacity:1;box-shadow:0 0 12px currentColor}}
+
+  nav{display:flex;justify-content:center;gap:8px;margin:18px 0}
+  nav a{color:var(--cream);text-decoration:none;font-weight:800;padding:9px 18px;border-radius:999px;border:2px solid rgba(251,245,234,.35)}
+  nav a.on{background:var(--cream);color:var(--pine);border-color:var(--cream)}
+
+  .notice{display:flex;align-items:center;gap:12px;background:var(--berry);color:#fff;border:2px dashed #ffd9a0;border-radius:14px;padding:12px 16px;margin:0 0 18px;font-weight:600}
+  .notice b{color:#ffe7b5}
+  .notice .ico{font-size:26px}
+  .notice.closed{background:#5a4a44;border-color:#cbb}
+
+  .card{background:var(--cream);border-radius:20px;padding:26px;box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:18px}
+  .card h2{font-family:'Mountains of Christmas',cursive;font-size:36px;color:var(--berry);margin:0 0 8px}
+  .card p{line-height:1.6;margin:8px 0}
+  .lead{font-size:19px}
+  .ribbon{display:inline-block;background:var(--gold);color:var(--pine);font-weight:800;border-radius:999px;padding:4px 14px;font-size:14px;margin-bottom:10px}
+
+  .examples{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:14px}
+  .ex{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .ex svg{display:block;width:100%;height:auto;background:linear-gradient(#fdf1f1,#f6efe3)}
+  .ex .cap{padding:12px 14px}
+  .ex .cap b{display:block;color:var(--pine);font-size:17px}
+  .ex .cap span{color:var(--muted);font-size:14px}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px}
+  .fact{background:#fff;border-radius:14px;padding:14px;border-left:5px solid var(--pine2)}
+  .fact b{display:block;margin-bottom:4px}
+
+  .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:13px 24px;font:800 16px Nunito,sans-serif;cursor:pointer;text-decoration:none}
+  .btn.red{background:var(--berry);color:#fff}.btn.red:hover{background:var(--berry2)}
+  .btn.green{background:var(--pine2);color:#fff}.btn.green:hover{background:var(--pine)}
+  .btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .center{text-align:center;margin-top:20px}
+
+  /* wishlist */
+  .who{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0 4px}
+  .who input{flex:1;min-width:200px;padding:12px 14px;border-radius:12px;border:2px solid var(--line);font:600 16px Nunito,sans-serif;background:#fff}
+  .who input:focus{outline:none;border-color:var(--gold)}
+  .items{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:16px}
+  .item{position:relative;background:#fff;border:2px solid var(--line);border-radius:16px;padding:16px 14px 14px;cursor:pointer;transition:transform .12s,border-color .12s;user-select:none}
+  .item:hover{transform:translateY(-2px)}
+  .item .em{font-size:34px}
+  .item .nm{font-weight:800;margin-top:6px}
+  .item .nt{color:var(--muted);font-size:14px;margin-top:2px}
+  .item .tick{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:15px;color:#fff}
+  .item.sel{border-color:var(--berry);background:#fff4f5}
+  .item.sel .tick{background:var(--berry);border-color:var(--berry)}
+  .item.taken{cursor:not-allowed;background:#f1ece4;opacity:.7}
+  .item.taken:hover{transform:none}
+  .item.mine{border-color:var(--pine2);background:#eef7f1;cursor:default;opacity:1}
+  .tag{display:inline-block;margin-top:8px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:999px}
+  .tag.t{background:#ddd3c6;color:#5a4f46}.tag.m{background:var(--pine2);color:#fff}
+  .bar{position:sticky;bottom:12px;margin-top:18px;background:var(--pine);color:var(--cream);border-radius:16px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+  .mine-list{margin-top:8px}
+  .mine-row{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px}
+  .mine-row button{background:none;border:2px solid var(--berry);color:var(--berry);border-radius:999px;padding:6px 14px;font:800 14px Nunito,sans-serif;cursor:pointer}
+  .mine-row button:disabled{opacity:.4;cursor:not-allowed}
+  .status{font-size:14px;color:var(--muted);margin-top:8px;min-height:1.2em}
+  .status.err{color:var(--berry);font-weight:700}
+
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(10,25,18,.6);display:none;align-items:center;justify-content:center;z-index:10;padding:16px}
+  .modal.open{display:flex}
+  .modal .box{background:var(--cream);border-radius:20px;max-width:440px;width:100%;padding:24px}
+  .modal h3{font-family:'Mountains of Christmas',cursive;font-size:30px;color:var(--berry);margin:0 0 6px}
+  .modal ul{padding-left:20px;line-height:1.7}
+  .modal .row{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+  .hidden{display:none}
+  .next{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:var(--cream);margin:26px auto 0;width:max-content}
+  .next-label{font-weight:800;font-size:18px}
+  .arrow{display:grid;place-items:center;width:78px;height:78px;border-radius:50%;background:var(--berry);color:#fff;font-size:40px;box-shadow:0 0 0 6px rgba(251,245,234,.25),0 8px 20px rgba(0,0,0,.3);animation:nudge 1.4s ease-in-out infinite}
+  .next:hover .arrow{background:var(--berry2)}
+  @keyframes nudge{50%{transform:translateX(8px)}}
+  .contact{background:#fff7e3;border:2px solid var(--gold);color:var(--pine);border-radius:14px;padding:12px 16px;font-weight:700;margin:0 0 18px}
+  .item .nm{padding-right:30px}
+  footer{text-align:center;color:rgba(251,245,234,.6);font-size:13px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="snow" id="snow"></div>
+<div class="wrap">
+  <header>
+    <h1>Ashley's Christmas Gifts</h1>
+    <div class="sub">My Christmas wishlist 🎄</div>
+    <div class="lights"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  </header>
+
+  <nav>
+    <a href="#home" id="nav-home">1 · My gift</a>
+    <a href="#wishlist" id="nav-wish">2 · Pick my gifts</a>
+  </nav>
+
+
+  <!-- PAGE 1 -->
+  <section id="page-home">
+    <div class="card">
+      <span class="ribbon">🎄 My Christmas wish</span>
+      <h2>I'd love a Brr Basket!</h2>
+      <p class="lead">This Christmas, I'm asking for a <b>Brr Basket</b>: a basket filled with lots of gifts. 🎁</p>
+      <p>One basket can hold as many items as you like, so feel free to pick several things from my list to put in yours.</p>
+      <p>To make it extra special, you could decorate your basket with fairy lights, ribbons or your own designs for a nice festive feel. ✨</p>
+      <p>Head to the next page to see my list and pick what you'd like to give me!</p>
+    </div>
+    <div class="contact">💬 Got any questions? Feel free to contact me (Ashley) anytime!
+    </div>
+    <a class="next" href="#wishlist" aria-label="Next page: Pick my gifts">
+      <span class="next-label">Next page: Pick my gifts</span>
+      <span class="arrow">➜</span>
+    </a>
+  </section>
+
+  <!-- PAGE 2 -->
+  <section id="page-wish" class="hidden">
+    <div class="notice" id="notice">
+      <span class="ico">⏰</span>
+      <div id="noticeText">Changes to gift selections close on <b>10 December</b>. Pick, change or cancel your gifts before then!</div>
+    </div>
+    <div class="card">
+      <span class="ribbon">🎁 Fill my Brr Basket</span>
+      <h2>Pick what you'd like to give me</h2>
+      <div class="contact" style="margin:0 0 14px">💬 Got any questions? Feel free to contact me (Ashley) anytime!</div>
+      <p>Tap the items you want to give (pick as many as you like for your basket), then press <b>Confirm my gifts</b>. Once you confirm, those items are reserved for you and no one else can pick them, so nobody gives me the same thing twice. Changed your mind? You can cancel any of your items below.</p>
+      <div class="who">
+        <input id="giverName" maxlength="40" placeholder="Your name (so Ashley knows who to thank!)">
+      </div>
+      <div class="status" id="status">Loading the list…</div>
+
+      <div class="items" id="items"></div>
+
+      <div id="mineWrap" class="hidden">
+        <h2 style="font-size:28px;margin-top:22px">Gifts you're giving 💚</h2>
+        <div class="mine-list" id="mineList"></div>
+      </div>
+
+      <div id="ownerWrap" class="hidden">
+        <h2 style="font-size:28px;margin-top:22px">Who's giving what</h2>
+        <p style="color:var(--muted);font-size:14px;margin-top:0">Only you (Ashley, logged in) can see this section and the names on each item. You can remove any reservation at any time, even after 10 December.</p>
+        <div class="mine-list" id="ownerList"></div>
+      </div>
+
+      <div class="bar">
+        <span id="selCount">No items selected</span>
+        <button class="btn red" id="confirmBtn" disabled>Confirm my gifts</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>Made with 🎄 for Ashley's Christmas · <a href="#" id="ownerLink" style="color:inherit">Ashley's login</a></footer>
+</div>
+
+<!-- owner login modal -->
+<div class="modal" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="lTitle">
+  <div class="box">
+    <h3 id="lTitle">Ashley's login</h3>
+    <p style="color:var(--muted);font-size:14px">Only for Ashley, to see who's giving what.</p>
+    <div class="who" style="flex-direction:column;align-items:stretch">
+      <input id="lEmail" type="email" placeholder="Email" autocomplete="username">
+      <input id="lPass" type="password" placeholder="Password" autocomplete="current-password">
+    </div>
+    <div class="status" id="lStatus"></div>
+    <div class="row">
+      <button class="btn ghost" id="lClose">Close</button>
+      <button class="btn green" id="lGo">Log in</button>
+    </div>
+  </div>
+</div>
+
+<!-- confirm modal -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="box">
+    <h3 id="mTitle">Confirm your gifts</h3>
+    <p>You're getting Ashley:</p>
+    <ul id="mList"></ul>
+    <p style="color:var(--muted);font-size:14px">These will be reserved for you. You can cancel them any time before 10 December.</p>
+    <div class="row">
+      <button class="btn ghost" id="mCancel">Go back</button>
+      <button class="btn green" id="mOk">Yes, I'm getting these!</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ===== STEP 1: PASTE YOUR FIREBASE CONFIG HERE ===== */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCi9B0Qtd4GiaCYn-z_Fpk-tGZrfggwoZc",
+  authDomain: "ashley-s-christmas-gifts.firebaseapp.com",
+  projectId: "ashley-s-christmas-gifts",
+  storageBucket: "ashley-s-christmas-gifts.firebasestorage.app",
+  messagingSenderId: "381983958370",
+  appId: "1:381983958370:web:9717eb6e64c413063bb83b"
+};
+/* ===== STEP 2: ASHLEY'S LOGIN EMAIL (must match the Firestore rules) ===== */
+const OWNER_EMAIL = "ash13y.c4ndra@gmail.com";
+
+/* ===== EDIT THE WISHLIST HERE ===== */
+const ITEMS = [
+  {id:"octobuddy", name:"Octobuddy", note:""},
+  {id:"cottonon", name:"Cotton On gift card", note:""},
+  {id:"glue", name:"E6000 or B7000 glue", note:""},
+  {id:"polaroid", name:"Decorative Polaroid film", note:"Candy Pop or Sprinkle design"},
+  {id:"gobbles", name:"Crayon gobbles", note:""},
+  {id:"owala", name:"Owala boot", note:"24oz"},
+  {id:"squishies", name:"Squishies", note:"Slow-rising, from Bunnies Patisserie"},
+  {id:"candle", name:"Vanilla candle", note:""},
+  {id:"headphones", name:"Wired headphones", note:"USB-C"},
+  {id:"powerbank", name:"MagSafe power bank", note:""},
+  {id:"dog", name:"Alive dog", note:""},
+  {id:"vinyl", name:"yspsfagsil vinyl album", note:"Regular colour"},
+  {id:"camera", name:"Digital camera", note:""},
+  {id:"crocs", name:"Crocs platform clogs", note:"Bring me personally"},
+  {id:"player", name:"2-in-1 vinyl and CD player", note:""},
+  {id:"mixer", name:"Stand mixer", note:""},
+  {id:"perfume", name:"Kayali Sweet Peach perfume", note:""},
+  {id:"curler", name:"Hair curler", note:""},
+  {id:"cakepops", name:"Cake pops", note:""},
+  {id:"swedish", name:"Swedish candy", note:""},
+  {id:"redpacket", name:"Red packet", note:""},
+  {id:"hoops", name:"Gold hoop earrings", note:""},
+  {id:"necklace", name:"Layered gold necklace", note:"Cheap is fine"},
+  {id:"hairnets", name:"Ballet hair nets", note:""},
+  {id:"acai", name:"Açaí bowl experience", note:""},
+  {id:"brush", name:"Boar bristle hair brush", note:""},
+  {id:"magnum", name:"Magnum Bonbons", note:""},
+  {id:"icetray", name:"Ice cream making tray", note:""},
+  {id:"bag", name:"Black shoulder bag purse", note:"Cheap is fine"}
+];
+/* Selections close at the end of 10 December 2026 (Singapore time) */
+const DEADLINE = new Date("2026-12-10T23:59:59+08:00");
+/* ================================== */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// snow
+(function(){const s=$('snow');for(let i=0;i<40;i++){const f=document.createElement('div');f.className='flake';f.textContent=Math.random()<.5?'❄':'•';f.style.left=Math.random()*100+'vw';f.style.fontSize=(8+Math.random()*14)+'px';f.style.animationDuration=(7+Math.random()*10)+'s';f.style.animationDelay=(-Math.random()*15)+'s';s.appendChild(f);}})();
+
+// routing
+function route(){
+  const wish = location.hash === '#wishlist';
+  $('page-home').classList.toggle('hidden', wish);
+  $('page-wish').classList.toggle('hidden', !wish);
+  $('nav-home').classList.toggle('on', !wish);
+  $('nav-wish').classList.toggle('on', wish);
+  window.scrollTo(0,0);
+}
+addEventListener('hashchange', route); route();
+
+// deadline
+const isClosed = () => Date.now() > DEADLINE.getTime();
+let owner = false;
+const lockedForMe = () => isClosed() && !owner;   // only Ashley can change things after the deadline
+function updateNotice(){
+  if (isClosed()){
+    $('notice').classList.add('closed');
+    $('noticeText').innerHTML = owner
+      ? 'Gift selections <b>closed on 10 December</b> for everyone else. You can still make changes.'
+      : 'Gift selections <b>closed on 10 December</b>. Thank you so much, everyone! 🎄';
+  } else {
+    const days = Math.ceil((DEADLINE - Date.now())/86400000);
+    $('noticeText').innerHTML = 'Changes to gift selections close on <b>10 December</b>' +
+      (days <= 14 ? ' (' + days + ' day' + (days===1?'':'s') + ' left)' : '') +
+      '. Pick, change or cancel your gifts before then!';
+  }
+}
+updateNotice(); setInterval(()=>{updateNotice(); render();}, 60000);
+
+// state
+let db = null, auth = null, myId = null, canWrite = true;
+let claims = {};           // itemId -> {by, at}    (everyone can see this, no names)
+let givers = {};           // uid -> {name}         (only Ashley can read all of these)
+const selected = new Set();
+let busy = false, unsubGivers = null;
+
+try { const n = localStorage.getItem('giverName'); if (n) $('giverName').value = n; } catch(e){}
+$('giverName').addEventListener('change', e => { try{localStorage.setItem('giverName', e.target.value.trim());}catch(_){} });
+
+function setStatus(msg, err){ const s=$('status'); s.textContent = msg||''; s.classList.toggle('err', !!err); }
+const giverName = id => (givers[id] && givers[id].name) || (id === myId ? 'You' : 'Someone');
+
+function render(){
+  const locked = lockedForMe();
+  const wrap = $('items'); wrap.innerHTML = '';
+  ITEMS.forEach(it => {
+    const c = claims[it.id];
+    const mine = c && c.by === myId;
+    const taken = c && !mine;
+    if (c) selected.delete(it.id);
+    const el = document.createElement('div');
+    el.className = 'item' + (mine?' mine':'') + (taken?' taken':'') + (selected.has(it.id)?' sel':'');
+    el.setAttribute('role','checkbox');
+    el.setAttribute('aria-checked', selected.has(it.id));
+    el.tabIndex = c || locked ? -1 : 0;
+    el.innerHTML = '<div class="tick">'+(selected.has(it.id)?'✓':'')+'</div>' +
+      '<div class="nm">'+esc(it.name)+'</div>' +
+      (it.note?'<div class="nt">'+esc(it.note)+'</div>':'') +
+      (mine?'<span class="tag m">You\'re giving this</span>':'') +
+      (taken?'<span class="tag t">Already taken 🎀</span>':'') +
+      (owner && taken ? '<div class="nt">by '+esc(giverName(c.by))+'</div>' : '');
+    const toggle = () => {
+      if (c || locked || busy || !db || !myId) return;
+      selected.has(it.id) ? selected.delete(it.id) : selected.add(it.id);
+      render();
+    };
+    el.onclick = toggle;
+    el.onkeydown = e => { if (e.key===' '||e.key==='Enter'){ e.preventDefault(); toggle(); } };
+    wrap.appendChild(el);
+  });
+
+  const n = selected.size;
+  $('selCount').textContent = locked ? 'Selections are closed' : (n ? n+' item'+(n>1?'s':'')+' selected' : 'No items selected');
+  $('confirmBtn').disabled = !n || locked || busy || !db || !myId;
+
+  const mineIds = ITEMS.filter(it => claims[it.id] && claims[it.id].by === myId);
+  $('mineWrap').classList.toggle('hidden', !mineIds.length || owner);
+  const ml = $('mineList'); ml.innerHTML = '';
+  mineIds.forEach(it => {
+    const row = document.createElement('div'); row.className='mine-row';
+    row.innerHTML = '<span><b>'+esc(it.name)+'</b></span>';
+    const b = document.createElement('button'); b.textContent='Cancel';
+    b.disabled = locked || busy;
+    b.onclick = () => cancelItem(it.id);
+    row.appendChild(b); ml.appendChild(row);
+  });
+
+  $('ownerWrap').classList.toggle('hidden', !owner);
+  $('ownerLink').textContent = owner ? 'Log out (Ashley)' : "Ashley's login";
+  if (owner){
+    const ol = $('ownerList'); ol.innerHTML = '';
+    const all = ITEMS.filter(it => claims[it.id]);
+    if (!all.length) ol.innerHTML = '<p style="color:var(--muted)">No one has reserved anything yet.</p>';
+    all.sort((a,b)=>giverName(claims[a.id].by).localeCompare(giverName(claims[b.id].by)));
+    all.forEach(it => {
+      const row = document.createElement('div'); row.className='mine-row';
+      row.innerHTML = '<span><b>'+esc(giverName(claims[it.id].by))+'</b>: '+esc(it.name)+'</span>';
+      const b = document.createElement('button'); b.textContent='Remove';
+      b.disabled = busy;
+      b.onclick = () => cancelItem(it.id);
+      row.appendChild(b); ol.appendChild(row);
+    });
+  }
+}
+render();
+
+// confirm flow
+$('confirmBtn').onclick = () => {
+  if (!$('giverName').value.trim()){ setStatus('Please type your name first, so Ashley knows who to thank 😊', true); $('giverName').focus(); return; }
+  $('mList').innerHTML = ITEMS.filter(i=>selected.has(i.id)).map(i=>'<li>'+esc(i.name)+'</li>').join('');
+  $('modal').classList.add('open'); $('mOk').focus();
+};
+$('mCancel').onclick = () => $('modal').classList.remove('open');
+$('modal').addEventListener('click', e => { if (e.target.id==='modal') $('modal').classList.remove('open'); });
+
+$('mOk').onclick = async () => {
+  $('modal').classList.remove('open');
+  if (lockedForMe()){ setStatus('Sorry, selections closed on 10 December.', true); return; }
+  busy = true; render(); setStatus('Reserving your gifts…');
+  const name = $('giverName').value.trim().slice(0,40);
+  try{localStorage.setItem('giverName', name);}catch(_){}
+  try { await db.collection('givers').doc(myId).set({name}); givers[myId] = {name}; } catch(e){ console.warn(e); }
+  const got = [], missed = [];
+  for (const id of [...selected]) {
+    const ref = db.collection('claims').doc(id);
+    try {
+      await db.runTransaction(async tx => {
+        const snap = await tx.get(ref);
+        if (snap.exists) throw new Error('taken');
+        tx.set(ref, {by: myId, at: firebase.firestore.FieldValue.serverTimestamp()});
+      });
+      got.push(id);
+    } catch(e){ missed.push(id); }
+  }
+  selected.clear(); busy = false; render();
+  const nm = ids => ids.map(id => ITEMS.find(i=>i.id===id).name).join(', ');
+  if (missed.length && got.length) setStatus('Reserved: '+nm(got)+'. Someone else just took: '+nm(missed)+'.', true);
+  else if (missed.length) setStatus('Oops, someone else just took: '+nm(missed)+'. Try picking something else!', true);
+  else setStatus('Thank you! 🎉 Your gifts are reserved. Use this same phone or laptop and browser if you want to cancel later.');
+};
+
+async function cancelItem(id){
+  if (lockedForMe()){ setStatus('Sorry, changes closed on 10 December.', true); return; }
+  const c = claims[id]; if (!c) return;
+  if (c.by !== myId && !owner) return;
+  busy = true; render();
+  try { await db.collection('claims').doc(id).delete(); setStatus(owner && c.by !== myId ? 'Removed. That item is free again.' : 'Cancelled. That item is free for others now.'); }
+  catch(e){ setStatus("Couldn't cancel right now, please try again.", true); }
+  busy = false; render();
+}
+
+// Ashley's login
+$('ownerLink').onclick = async e => {
+  e.preventDefault();
+  if (owner){ await auth.signOut(); return; }
+  $('lStatus').textContent=''; $('loginModal').classList.add('open'); $('lEmail').focus();
+};
+$('lClose').onclick = () => $('loginModal').classList.remove('open');
+$('lGo').onclick = async () => {
+  $('lStatus').textContent = 'Logging in…'; $('lStatus').classList.remove('err');
+  try {
+    await auth.signInWithEmailAndPassword($('lEmail').value.trim(), $('lPass').value);
+    $('loginModal').classList.remove('open'); $('lPass').value='';
+  } catch(err){ $('lStatus').textContent = 'Wrong email or password.'; $('lStatus').classList.add('err'); }
+};
+
+// connect to Firebase
+(function start(){
+  if (FIREBASE_CONFIG.apiKey === 'PASTE_HERE'){
+    setStatus('This page is not connected to Firebase yet. Paste the Firebase config at the top of the file.', true); return;
+  }
+  if (!window.firebase){
+    setStatus("Couldn't load Firebase. Check your internet connection and reload the page.", true); return;
+  }
+  firebase.initializeApp(FIREBASE_CONFIG);
+  auth = firebase.auth(); db = firebase.firestore();
+
+  auth.onAuthStateChanged(async u => {
+    if (!u){ try { await auth.signInAnonymously(); } catch(e){ setStatus("Couldn't connect. Please reload the page.", true); } return; }
+    myId = u.uid;
+    owner = !!u.email && u.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
+    updateNotice();
+    if (unsubGivers){ unsubGivers(); unsubGivers = null; }
+    givers = {};
+    if (owner){
+      unsubGivers = db.collection('givers').onSnapshot(snap => {
+        const next = {}; snap.forEach(d => next[d.id] = d.data()); givers = next; render();
+      }, err => console.warn(err));
+    } else {
+      db.collection('givers').doc(myId).get().then(d => {
+        if (d.exists){ givers[myId] = d.data(); if (!$('giverName').value) $('giverName').value = d.data().name || ''; }
+      }).catch(()=>{});
+    }
+    render();
+  });
+
+  const timer = setTimeout(() => setStatus("Can't reach the gift list right now. Check your connection.", true), 10000);
+  let subscribed = false;
+  auth.onAuthStateChanged(u => {
+    if (!u || subscribed) return; subscribed = true;
+    db.collection('claims').onSnapshot(snap => {
+      clearTimeout(timer);
+      const next = {}; snap.forEach(d => { const v = d.data(); if (v && v.by) next[d.id] = v; });
+      claims = next;
+      if (/Loading|reach/.test($('status').textContent)) setStatus('');
+      render();
+    }, err => { clearTimeout(timer); setStatus('The gift list is unavailable right now. Please reload later.', true); });
+  });
+})();
+</script>
+</body>
+</html>
